@@ -66,22 +66,10 @@
                     </div>
                 </div>
 			</form>
-			<script>
-				var view = document.getElementById("getLocation");
-				function getLocation() {
-					if (navigator.geolocation) {
-						navigator.geolocation.getCurrentPosition(showPosition);
-					} else {
-						view.innerHTML = "";
-					}
-				}
-				function showPosition(position) {
-					view.innerHTML = "<input type='hidden' name='location' value='" + position.coords.latitude + "," + position.coords.longitude +"' />";
-				}
-			</script>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
-            <form class="forget-form" action="<?= base_url(); ?>User/guest" method="post">
+            <form class="forget-form" action="<?= base_url(); ?>guest_book" method="post">
+                <p id="getLocation"></p>
                 <div class="form-title">
                     <!-- <span class="form-title">Forget Password ?</span> -->
                     <span class="form-subtitle">Silahkan lengkapi formulir dibawah ini.</span>
@@ -95,6 +83,19 @@
                     <button type="submit" class="btn btn-primary uppercase pull-right">Masuk</button>
                 </div>
             </form>
+            <script>
+				var view = document.getElementById("getLocation");
+				function getLocation() {
+					if (navigator.geolocation) {
+						navigator.geolocation.getCurrentPosition(showPosition);
+					} else {
+						view.innerHTML = "";
+					}
+				}
+				function showPosition(position) {
+					view.innerHTML = "<input type='hidden' name='location' value='" + position.coords.latitude + "," + position.coords.longitude +"' />";
+				}
+			</script>
             <!-- END FORGOT PASSWORD FORM -->
         </div>
         <div class="copyright"> 2020 © Kemensos RI. </div>

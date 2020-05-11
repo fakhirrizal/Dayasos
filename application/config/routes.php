@@ -58,25 +58,20 @@ $route['login'] = 'Auth/login';
 $route['login_process'] = 'Auth/login_process';
 $route['registrasi'] = 'Auth/registration';
 $route['register_process'] = 'Auth/register_process';
+$route['guest_book'] = 'Auth/guest_book';
 
 /* Admin */
-$route['admin_side/launcher'] = 'admin/App/launcher';
 $route['admin_side/beranda'] = 'admin/App/home';
-$route['admin_side/menu'] = 'admin/App/menu';
+$route['admin_side/buku_tamu'] = 'admin/App/guest_book';
 $route['admin_side/log_activity'] = 'admin/App/log_activity';
+$route['admin_side/hapus_aktifitas/(:any)'] = 'admin/App/deleted_log/$1';
 $route['admin_side/cleaning_log'] = 'admin/App/cleaning_log';
-$route['admin_side/tentang_aplikasi'] = 'admin/App/about';
+$route['admin_side/versioning_aplikasi'] = 'admin/App/about';
 $route['admin_side/bantuan'] = 'admin/App/helper';
-
-$route['admin_side/dasbor_peta'] = 'admin/Dashboard';
-$route['admin_side/peta_provinsi/(:any)'] = 'admin/Dashboard/province/$1';
-$route['admin_side/peta_kabupaten/(:any)'] = 'admin/Dashboard/city/$1';
-$route['admin_side/peta_kecamatan/(:any)'] = 'admin/Dashboard/sub_district/$1';
-
-$route['admin_side/dasbor_grafik'] = 'admin/Dashboard/main_graph';
-$route['admin_side/dasbor_grafik_provinsi/(:any)/(:any)'] = 'admin/Dashboard/graph_province/$1/$2';
-$route['admin_side/dasbor_grafik_kabupaten/(:any)/(:any)'] = 'admin/Dashboard/graph_region/$1/$2';
-$route['admin_side/dasbor_grafik_kecamatan/(:any)/(:any)'] = 'admin/Dashboard/graph_district/$1/$2';
+$route['admin_side/profil'] = 'admin/App/profile';
+$route['admin_side/pengaturan_kata_sandi'] = 'admin/App/password_setting';
+$route['admin_side/perbarui_profil'] = 'admin/App/profile_update';
+$route['admin_side/perbarui_kata_sandi'] = 'admin/App/password_update';
 
 $route['admin_side/administrator'] = 'admin/Master/administrator_data';
 $route['admin_side/tambah_data_admin'] = 'admin/Master/add_administrator_data';
@@ -90,36 +85,57 @@ $route['admin_side/data_petugas'] = 'admin/Master/member_data';
 $route['admin_side/tambah_data_petugas'] = 'admin/Master/add_member_data';
 $route['admin_side/simpan_data_petugas'] = 'admin/Master/save_member_data';
 $route['admin_side/ubah_data_petugas/(:any)'] = 'admin/Master/edit_member_data/$1';
+$route['admin_side/perbarui_data_petugas'] = 'admin/Master/update_member_data';
 $route['admin_side/atur_ulang_kata_sandi_petugas/(:any)'] = 'admin/Master/reset_password_member_account/$1';
 $route['admin_side/hapus_data_petugas/(:any)'] = 'admin/Master/delete_member_data/$1';
 
-$route['admin_side/kategori_soal'] = 'admin/Master/kategori_soal';
-$route['admin_side/tambah_kategori_soal'] = 'admin/Master/tambah_kategori_soal';
-$route['admin_side/simpan_kategori_soal'] = 'admin/Master/simpan_kategori_soal';
-$route['admin_side/detail_kategori_soal/(:any)'] = 'admin/Master/detail_kategori_soal/$1';
-$route['admin_side/perbarui_kategori_soal'] = 'admin/Master/perbarui_kategori_soal';
-$route['admin_side/hapus_kategori_soal/(:any)'] = 'admin/Master/hapus_kategori_soal/$1';
+$route['admin_side/jadwal_kegiatan'] = 'admin/Master/jadwal_kegiatan';
+$route['admin_side/timeline_kegiatan'] = 'admin/Master/timeline_kegiatan';
+$route['admin_side/tambah_jadwal_kegiatan'] = 'admin/Master/tambah_jadwal_kegiatan';
+$route['admin_side/ubah_jadwal_kegiatan/(:any)'] = 'admin/Master/ubah_jadwal_kegiatan/$1';
+$route['admin_side/perbarui_jadwal_kegiatan'] = 'admin/Master/perbarui_jadwal_kegiatan';
+$route['admin_side/laporan_kegiatan'] = 'admin/Report/laporan_kegiatan';
+$route['admin_side/hapus_jadwal_kegiatan/(:any)'] = 'admin/Master/hapus_jadwal_kegiatan/$1';
+$route['admin_side/tambah_laporan_kegiatan'] = 'admin/Report/tambah_laporan_kegiatan';
+$route['admin_side/simpan_laporan_kegiatan'] = 'admin/Report/simpan_laporan_kegiatan';
+$route['admin_side/detail_laporan_kegiatan/(:any)'] = 'admin/Report/detail_laporan_kegiatan/$1';
+$route['admin_side/hapus_laporan_kegiatan/(:any)'] = 'admin/Report/hapus_laporan_kegiatan/$1';
 
-$route['admin_side/soal'] = 'admin/Master/soal';
-$route['admin_side/tambah_soal'] = 'admin/Master/tambah_soal';
-$route['admin_side/simpan_soal'] = 'admin/Master/simpan_soal';
-$route['admin_side/detail_soal/(:any)'] = 'admin/Master/detail_soal/$1';
-$route['admin_side/perbarui_soal'] = 'admin/Master/perbarui_soal';
-$route['admin_side/hapus_soal/(:any)'] = 'admin/Master/hapus_soal/$1';
+/* Petugas */
+$route['spv_side/beranda'] = 'spv/App/home';
+$route['spv_side/buku_tamu'] = 'spv/App/guest_book';
+$route['spv_side/log_activity'] = 'spv/App/log_activity';
+$route['spv_side/hapus_aktifitas/(:any)'] = 'spv/App/deleted_log/$1';
+$route['spv_side/cleaning_log'] = 'spv/App/cleaning_log';
+$route['spv_side/versioning_aplikasi'] = 'spv/App/about';
+$route['spv_side/bantuan'] = 'spv/App/helper';
+$route['spv_side/profil'] = 'spv/App/profile';
+$route['spv_side/pengaturan_kata_sandi'] = 'spv/App/password_setting';
+$route['spv_side/perbarui_profil'] = 'spv/App/profile_update';
+$route['spv_side/perbarui_kata_sandi'] = 'spv/App/password_update';
 
-$route['admin_side/master_modul'] = 'admin/Master/modul';
-$route['admin_side/tambah_modul_ujian'] = 'admin/Master/tambah_modul';
-$route['admin_side/simpan_data_modul'] = 'admin/Master/simpan_modul';
-$route['admin_side/detail_modul/(:any)'] = 'admin/Master/detail_modul/$1';
-$route['admin_side/perbarui_modul_ujian'] = 'admin/Master/perbarui_modul';
-$route['admin_side/tambah_soal_modul'] = 'admin/Master/tambah_soal_modul';
-$route['admin_side/tambah_siswa_modul'] = 'admin/Master/tambah_siswa_modul';
-$route['admin_side/hapus_soal_dalam_modul/(:any)'] = 'admin/Master/hapus_soal_dalam_modul/$1';
-$route['admin_side/hapus_siswa_dalam_modul/(:any)'] = 'admin/Master/hapus_siswa_dalam_modul/$1';
-$route['admin_side/modul_locked/(:any)'] = 'admin/Master/modul_locked/$1';
-$route['admin_side/hapus_modul/(:any)'] = 'admin/Master/hapus_modul/$1';
+$route['spv_side/data_petugas'] = 'spv/Master/member_data';
 
-$route['admin_side/detail_jawaban_ujian/(:any)/(:any)'] = 'admin/Report/detail_jawaban_ujian/$1/$2';
+$route['spv_side/jadwal_kegiatan'] = 'spv/Master/jadwal_kegiatan';
+$route['spv_side/timeline_kegiatan'] = 'spv/Master/timeline_kegiatan';
+$route['spv_side/tambah_jadwal_kegiatan'] = 'spv/Master/tambah_jadwal_kegiatan';
+$route['spv_side/ubah_jadwal_kegiatan/(:any)'] = 'spv/Master/ubah_jadwal_kegiatan/$1';
+$route['spv_side/perbarui_jadwal_kegiatan'] = 'spv/Master/perbarui_jadwal_kegiatan';
+$route['spv_side/laporan_kegiatan'] = 'spv/Report/laporan_kegiatan';
+$route['spv_side/hapus_jadwal_kegiatan/(:any)'] = 'spv/Master/hapus_jadwal_kegiatan/$1';
+$route['spv_side/tambah_laporan_kegiatan'] = 'spv/Report/tambah_laporan_kegiatan';
+$route['spv_side/simpan_laporan_kegiatan'] = 'spv/Report/simpan_laporan_kegiatan';
+$route['spv_side/detail_laporan_kegiatan/(:any)'] = 'spv/Report/detail_laporan_kegiatan/$1';
+$route['spv_side/hapus_laporan_kegiatan/(:any)'] = 'spv/Report/hapus_laporan_kegiatan/$1';
+
+/* Guest */
+$route['guest_side/beranda'] = 'guest/App/home';
+$route['guest_side/versioning_aplikasi'] = 'guest/App/about';
+$route['guest_side/bantuan'] = 'guest/App/helper';
+
+$route['guest_side/jadwal_kegiatan'] = 'guest/Master/jadwal_kegiatan';
+$route['guest_side/timeline_kegiatan'] = 'guest/Master/timeline_kegiatan';
+$route['guest_side/laporan_kegiatan'] = 'guest/Report/laporan_kegiatan';
 
 /*
 | -------------------------------------------------------------------------

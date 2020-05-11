@@ -50,6 +50,7 @@ class Jadwal extends REST_Controller {
                         'subdirektorat' => $this->post('subdirektorat'),
                         'kegiatan' => $this->post('kegiatan'),
                         'tanggal' => $this->post('tanggal'),
+                        'tanggal_selesai' => $this->post('tanggal'),
                         'lokasi' => $this->post('lokasi'),
                         'peserta' => $this->post('peserta'),
                         'surat' => $this->post('surat'),

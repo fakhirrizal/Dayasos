@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.9.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 24 Apr 2020 pada 10.43
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.4.3
+-- Host: localhost:3306
+-- Waktu pembuatan: 29 Apr 2020 pada 16.24
+-- Versi server: 10.3.22-MariaDB-cll-lve
+-- Versi PHP: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dayasos`
+-- Database: `aplikasi_dayasos`
 --
 
 -- --------------------------------------------------------
@@ -81,10 +81,12 @@ CREATE TABLE `jadwal_kegiatan` (
   `direktorat` text DEFAULT NULL,
   `subdirektorat` text DEFAULT NULL,
   `kegiatan` text DEFAULT NULL,
-  `tanggal` date DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `tanggal_selesai` datetime DEFAULT NULL,
   `lokasi` text DEFAULT NULL,
   `peserta` text DEFAULT NULL,
   `surat` text DEFAULT NULL,
+  `color` varchar(7) DEFAULT NULL,
   `created_by` int(9) DEFAULT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -143,8 +145,24 @@ CREATE TABLE `petugas` (
 --
 
 INSERT INTO `petugas` (`id_petugas`, `user_id`, `nama`, `alamat`, `no_hp`, `email`, `nip`, `jabatan`) VALUES
-(0, 2, 'Bambang Pamungkas', NULL, NULL, 'bokir.rizal@gmail.com', NULL, NULL),
-(1, 3, 'Cristiano', NULL, NULL, NULL, NULL, NULL);
+(0, 2, 'Bambang Pamungkas', NULL, NULL, 'bokir.rizal@gmail.com', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tamu`
+--
+
+CREATE TABLE `tamu` (
+  `id` int(9) NOT NULL,
+  `nama` text NOT NULL,
+  `email` text NOT NULL,
+  `ip` text DEFAULT NULL,
+  `device` text DEFAULT NULL,
+  `os` text DEFAULT NULL,
+  `browser` text DEFAULT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -184,10 +202,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `pass`, `fullname`, `photo`, `total_login`, `last_login`, `last_activity`, `login_attempts`, `last_login_attempt`, `remember_time`, `remember_exp`, `ip_address`, `is_active`, `verification_token`, `recovery_token`, `unlock_token`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `deleted`) VALUES
-(0, 'admin', '1', 'Administrator', NULL, 19, '2020-04-22 23:17:15', '2020-04-22 23:17:15', 20, '2020-04-22 23:17:15', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2019-12-07 22:15:17', NULL, NULL, NULL, NULL, 0),
-(1, 'adm', '1', 'Administrator', NULL, 29, '2020-02-20 20:43:25', '2020-02-20 20:43:25', 29, '2020-02-20 20:43:25', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2019-12-08 23:32:46', NULL, NULL, NULL, NULL, 0),
-(2, 'petugas', 'YIWULAQ5', 'Bambang Pamungkas', NULL, 1, '2020-04-22 23:17:28', '2020-04-22 23:17:28', 1, '2020-04-22 23:17:28', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2020-04-22 23:03:09', NULL, NULL, NULL, NULL, 0),
-(3, 'cr', '1', 'Cristiano', NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, 0, '2020-04-24 13:42:32', NULL, NULL, NULL, NULL, 0);
+(0, 'admin', '1', 'Administrator', NULL, 24, '2020-04-29 00:05:48', '2020-04-29 00:05:48', 26, '2020-04-29 00:05:48', NULL, NULL, '114.79.18.86', 1, NULL, NULL, NULL, 0, '2019-12-07 22:15:17', NULL, NULL, NULL, NULL, 0),
+(1, 'adm', '1', 'Administrator', NULL, 36, '2020-04-29 15:52:31', '2020-04-29 15:52:31', 36, '2020-04-29 15:52:31', NULL, NULL, '139.0.72.173', 1, NULL, NULL, NULL, 0, '2019-12-08 23:32:46', NULL, NULL, NULL, NULL, 0),
+(2, 'petugas', '1', 'Bambang Pamungkas', NULL, 1, '2020-04-22 23:17:28', '2020-04-22 23:17:28', 1, '2020-04-22 23:17:28', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2020-04-22 23:03:09', NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -219,7 +236,7 @@ INSERT INTO `user_role` (`id`, `company_id`, `name`, `definition`, `description`
 (0, NULL, 'Super Admin', 'Super Administrator', NULL, 'admin_side/beranda', 0, '2018-10-27 17:52:08', NULL, NULL, NULL, NULL, 0),
 (1, NULL, 'Admin', 'Administrator (Owner)', NULL, 'admin_side/beranda', 0, '2017-03-06 01:19:26', 2, '2018-10-27 18:55:37', NULL, NULL, 0),
 (2, NULL, '', 'Petugas Lapangan', NULL, 'spv_side/beranda', 0, '2020-04-22 22:57:41', NULL, NULL, NULL, NULL, 0),
-(3, NULL, '', 'Pengunjung', NULL, NULL, 0, '2020-04-22 22:58:42', NULL, NULL, NULL, NULL, 0);
+(3, NULL, '', 'Pengunjung', NULL, 'guest_side/beranda', 0, '2020-04-22 22:58:42', NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -239,8 +256,7 @@ CREATE TABLE `user_to_role` (
 INSERT INTO `user_to_role` (`user_id`, `role_id`) VALUES
 (0, 0),
 (1, 1),
-(2, 2),
-(3, 2);
+(2, 2);
 
 --
 -- Indexes for dumped tables
@@ -288,6 +304,12 @@ ALTER TABLE `laporan_kegiatan`
 ALTER TABLE `petugas`
   ADD PRIMARY KEY (`id_petugas`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indeks untuk tabel `tamu`
+--
+ALTER TABLE `tamu`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `user`
@@ -352,6 +374,12 @@ ALTER TABLE `laporan_kegiatan`
 --
 ALTER TABLE `petugas`
   MODIFY `id_petugas` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `tamu`
+--
+ALTER TABLE `tamu`
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`

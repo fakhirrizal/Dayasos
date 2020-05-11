@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Main_model extends CI_Model{
-	function getSelectedData($tbl_name, $select = '', $where = '', $order = '', $limit = '', $start = '0', $group = '', $join = '') {
+	function getSelectedData($tbl_name, $select = '', $where = '', $order = '', $limit = '', $start = '0', $group = '', $join = '')
+	{
 		if (!empty($select))
 			$this->db->select($select, false);
 		if (!empty($where))
@@ -29,19 +30,18 @@ class Main_model extends CI_Model{
 
 		return $this->db->get($tbl_name);
 	}
-	// function manualQuery($q)
-	// 	{
-	// 		return $this->db->query($q)->result();
-	// 	}
-	function insertData($table,$data){
+	function insertData($table,$data)
+	{
 		$res = $this->db->insert($table,$data);
 		return $res;
 		}
-	function cleanData($table){
+	function cleanData($table)
+	{
 		$q = $this->db->query("TRUNCATE TABLE $table");
 		return $q;
 	}
-	function getAlldata($table){
+	function getAlldata($table)
+	{
 		return $this->db->get($table)->result();
 	}
 	function updateData($table,$data,$field_key)
@@ -52,7 +52,8 @@ class Main_model extends CI_Model{
 	{
 		$this->db->delete($table,$data);
 	}
-	function log_activity($user_id,$activity_type,$activity_data,$location = ''){
+	function log_activity($user_id,$activity_type,$activity_data,$location = '')
+	{
 		$device = '';
 		if ($this->agent->is_browser()){
 			$device = 'PC';
@@ -74,10 +75,12 @@ class Main_model extends CI_Model{
 		);
 		$this->insertData('activity_logs',$activity_log);
 	}
-	function getLastID($table,$column){
+	function getLastID($table,$column)
+	{
 		return $this->db->query('SELECT '.$column.' FROM '.$table.' ORDER BY '.$column.' DESC LIMIT 1')->row_array();
 	}
-	function convert_tanggal($tanggalan){
+	function convert_tanggal($tanggalan)
+	{
 		$tanggal_tampil = '';
 		$waktu = explode('-', $tanggalan);
 		if ($waktu[1]=="01") {
@@ -107,7 +110,8 @@ class Main_model extends CI_Model{
 		}
 		return $tanggal_tampil;
 	}
-	public function convert_hari($date){
+	function convert_hari($date)
+	{
 		$daftar_hari = array(
 			'Sunday' => 'Minggu',
 			'Monday' => 'Senin',
@@ -119,5 +123,11 @@ class Main_model extends CI_Model{
 		);
 		$namahari = date('l', strtotime($date));
 		return $daftar_hari[$namahari];
+	}
+	function convert_datetime($datetime)
+	{
+		$split_date = explode(' ',$datetime);
+		$show_string = $this->convert_tanggal($split_date[0]).' '.substr($split_date[1],0,5);
+		return $show_string;
 	}
 }

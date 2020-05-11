@@ -5,31 +5,45 @@ class Auth extends CI_Controller {
 
 	public function login()
 	{
-		$cek = $this->Main_model->getSelectedData('user_to_role a', 'a.role_id,b.route', array('a.user_id'=>$this->session->userdata('id'),'b.deleted'=>'0'), "",'','','',array(
-			'table' => 'user_role b',
-			'on' => 'a.role_id=b.id',
-			'pos' => 'LEFT'
-		))->result();
-		if($cek!=NULL){
-			foreach ($cek as $key => $value) {
-				if($value->role_id!=NULL){
-					redirect($value->route);
-				}
-				else{
-					$this->session->sess_destroy();
-					$this->session->set_flashdata('error','<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: justify;">
-												<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-												<strong>Ups!</strong>&nbsp;&nbsp;Akun Anda tidak dikenali sistem.
-											</div>' );
-					echo "<script>window.location='".base_url()."'</script>";
+		if($this->session->userdata('role_id')=='3'){
+			$cek = $this->Main_model->getSelectedData('tamu a', 'a.*', array('a.id'=>$this->session->userdata('id')))->result();
+			if($cek!=NULL){
+				redirect('guest_side/beranda');
+			}
+			else{
+				$this->session->sess_destroy();
+				$this->load->view('auth/login');
+			}
+		}else{
+			$cek = $this->Main_model->getSelectedData('user_to_role a', 'a.role_id,b.route', array('a.user_id'=>$this->session->userdata('id'),'b.deleted'=>'0'), "",'','','',array(
+				'table' => 'user_role b',
+				'on' => 'a.role_id=b.id',
+				'pos' => 'LEFT'
+			))->result();
+			if($cek!=NULL){
+				foreach ($cek as $key => $value) {
+					if($value->role_id!=NULL){
+						redirect($value->route);
+					}
+					else{
+						$this->session->sess_destroy();
+						$this->session->set_flashdata('error','<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: justify;">
+													<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+													<strong>Ups!</strong>&nbsp;&nbsp;Akun Anda tidak dikenali sistem.
+												</div>' );
+						echo "<script>window.location='".base_url()."'</script>";
+					}
 				}
 			}
+			else{
+				$this->session->sess_destroy();
+				$this->load->view('auth/login');
+			}
 		}
-		else{
-			$this->load->view('auth/login');
-		}
+		
 	}
-	public function login_process(){
+	public function login_process()
+	{
 		$cek = $this->Main_model->getSelectedData('user a', '*', array("a.username" => $this->input->post('username'), "a.is_active" => '1', 'a.deleted' => '0'), 'a.username ASC')->result();
 		if($cek!=NULL){
 			$cek2 = $this->Main_model->getSelectedData('user a', '*', array("a.username" => $this->input->post('username'),'pass' => $this->input->post('password'), "a.is_active" => '1', 'deleted' => '0'), 'a.username ASC','','','','')->result();
@@ -122,7 +136,8 @@ class Auth extends CI_Controller {
 			}
 		}
 	}
-	public function register_process(){
+	public function register_process()
+	{
 		$cek = $this->Main_model->getSelectedData('user a', 'a.*', array("a.username" => $this->input->post('nik')))->result();
 		if($cek!=NULL){
 			$this->session->set_flashdata('error','
@@ -189,11 +204,55 @@ class Auth extends CI_Controller {
 			}
 		}
 	}
-	public function logout(){
+	public function guest_book()
+	{
+		$this->db->trans_start();
+		$device = '';
+		if ($this->agent->is_browser()){
+			$device = 'PC';
+		}elseif ($this->agent->is_mobile()){
+			$device = $this->agent->mobile();
+		}else{
+			$device = '';
+		}
+		$user_id = $this->Main_model->getLastID('tamu','id');
+		$data1 = array(
+					'id' => $user_id['id']+1,
+					'nama' => $this->input->post('nama'),
+					'email' => $this->input->post('email'),
+					'ip' => $this->input->ip_address(),
+					'device' => $device,
+					'os' => $this->agent->platform(),
+					'browser' => $this->agent->browser().' '.$this->agent->version(),
+					'created_at' => date('Y-m-d H:i:s')
+				);
+		// print_r($data1);
+		$this->Main_model->insertData('tamu',$data1);
+		$this->Main_model->log_activity($user_id['id']+1,'Registration new guest',"Tamu masuk ke dalam sistem (".$this->input->post('nama').")");
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('error','
+			<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: justify;">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>Ups!</strong>&nbsp;&nbsp;Harap ulangi.
+			</div>' );
+			echo "<script>window.location='".base_url()."'</script>";
+		}
+		else{
+			$sess_data['id'] = $user_id['id']+1;
+			$sess_data['role_id'] = '3';
+			$sess_data['location'] = $this->input->post('location');
+			$this->session->set_userdata($sess_data);
+			redirect('guest_side/beranda');
+		}
+	}
+	public function logout()
+	{
 		$this->session->sess_destroy();
 		echo "<script>window.location='".base_url()."'</script>";
 	}
-	public function forget_password() {
+	public function forget_password()
+	{
 		$q1 = "SELECT a.*,b.fullname FROM user a LEFT JOIN user_profile b ON a.id=b.user_id WHERE a.email='".$this->input->post('email')."' AND a.deleted='0'";
 		$cek = $this->Main_model->manualQuery($q1);
         if($cek==NULL){

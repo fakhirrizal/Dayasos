@@ -455,11 +455,23 @@
 		<!--begin::Global Theme Bundle(used by all pages) -->
 
 		<!--begin:: Vendor Plugins -->
-		<script src="<?= base_url(); ?>assets/plugins/general/jquery/dist/jquery.js" type="text/javascript"></script>
+		<?php
+		if($parent == 'home' OR $child == 'timeline_kegiatan'){
+			echo'';
+		}else{
+			echo'<script src="<?= base_url(); ?>assets/plugins/general/jquery/dist/jquery.js" type="text/javascript"></script>';
+		}
+		?>
 		<script src="<?= base_url(); ?>assets/plugins/general/popper.js/dist/umd/popper.js" type="text/javascript"></script>
 		<script src="<?= base_url(); ?>assets/plugins/general/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 		<script src="<?= base_url(); ?>assets/plugins/general/js-cookie/src/js.cookie.js" type="text/javascript"></script>
-		<script src="<?= base_url(); ?>assets/plugins/general/moment/min/moment.min.js" type="text/javascript"></script>
+		<?php
+		if($parent == 'home' OR $child == 'timeline_kegiatan'){
+			echo'';
+		}else{
+			echo'<script src="<?= base_url(); ?>assets/plugins/general/moment/min/moment.min.js" type="text/javascript"></script>';
+		}
+		?>
 		<script src="<?= base_url(); ?>assets/plugins/general/tooltip.js/dist/umd/tooltip.min.js" type="text/javascript"></script>
 		<script src="<?= base_url(); ?>assets/plugins/general/perfect-scrollbar/dist/perfect-scrollbar.js" type="text/javascript"></script>
 		<script src="<?= base_url(); ?>assets/plugins/general/sticky-js/dist/sticky.min.js" type="text/javascript"></script>
